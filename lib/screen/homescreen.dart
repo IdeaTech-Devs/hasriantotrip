@@ -102,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
           pickedTime.minute,
         );
         setState(() {
-          controller.text = DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDateTime);
+          controller.text =
+              DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDateTime);
         });
       }
     }
@@ -147,7 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _submitData,
-                  child: Text('Simpan'),
+                  child: Text('Simpan',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 255, 160, 77))),
                 ),
               ],
             ),
@@ -164,16 +168,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Color.fromARGB(81, 81, 81, 81).withOpacity(0.5),
+        color: Colors.white
+            .withOpacity(0.8), // Warna latar belakang yang lebih kontras
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
-          color: const Color.fromARGB(255, 81, 81, 81).withOpacity(0.8),
+          color:
+              Colors.black.withOpacity(0.8), // Warna border yang lebih kontras
         ),
       ),
       child: TextField(
         controller: controller,
+        style: TextStyle(fontSize: 16, color: Colors.black),
         decoration: InputDecoration(
           labelText: labelText,
+          labelStyle: TextStyle(fontSize: 16, color: Colors.black),
           border: InputBorder.none,
           contentPadding:
               EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
@@ -190,18 +198,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Color.fromARGB(81, 81, 81, 81).withOpacity(0.5),
+        color: Colors.white
+            .withOpacity(0.8), // Warna latar belakang yang lebih kontras
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
-          color: const Color.fromARGB(255, 81, 81, 81).withOpacity(0.8),
+          color:
+              Colors.black.withOpacity(0.8), // Warna border yang lebih kontras
         ),
       ),
       child: TextField(
         controller: controller,
         readOnly: true,
         onTap: () => _selectDateTime(context, controller),
+        style: TextStyle(fontSize: 16, color: Colors.black),
         decoration: InputDecoration(
           labelText: labelText,
+          labelStyle: TextStyle(fontSize: 16, color: Colors.black),
           border: InputBorder.none,
           contentPadding:
               EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
