@@ -42,9 +42,12 @@ class DetailScreen extends StatelessWidget {
                     children: [
                       const Icon(Icons.departure_board, color: Colors.blue),
                       const SizedBox(width: 10),
-                      Text(
-                        'Keberangkatan: $waktuKeberangkatan',
-                        style: const TextStyle(fontSize: 16),
+                      Expanded(
+                        child: Text(
+                          'Keberangkatan: $waktuKeberangkatan',
+                          style: const TextStyle(fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -53,9 +56,12 @@ class DetailScreen extends StatelessWidget {
                     children: [
                       const Icon(Icons.access_time, color: Colors.green),
                       const SizedBox(width: 10),
-                      Text(
-                        'Sampai: $waktuSampai',
-                        style: const TextStyle(fontSize: 16),
+                      Expanded(
+                        child: Text(
+                          'Sampai: $waktuSampai',
+                          style: const TextStyle(fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
