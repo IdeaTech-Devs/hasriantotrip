@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2/apitrip';
+  static const String baseUrl = 'https://unishop.my.id/apitrip';
 
   static Future<http.Response> login(String email, String password) {
     return http.post(
@@ -58,7 +58,11 @@ class ApiService {
   }
 
   static Future<http.Response> addPerjalanan(
-      String namaLokasi, String waktuKeberangkatan, String waktuSampai, String catatan, String idPengguna) {
+      String namaLokasi,
+      String waktuKeberangkatan,
+      String waktuSampai,
+      String catatan,
+      String idPengguna) {
     return http.post(
       Uri.parse('$baseUrl/add_perjalanan.php'),
       body: {
@@ -68,6 +72,13 @@ class ApiService {
         'catatan': catatan,
         'id_pengguna': idPengguna,
       },
+    );
+  }
+
+  static Future<http.Response> getPerjalanan(String userId) {
+    return http.post(
+      Uri.parse('$baseUrl/get_perjalanan.php'),
+      body: {'id_pengguna': userId},
     );
   }
 }
