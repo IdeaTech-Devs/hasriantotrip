@@ -28,54 +28,56 @@ class DetailScreen extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Lokasi: $namaLokasi',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Icon(Icons.departure_board, color: Colors.blue),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Keberangkatan: $waktuKeberangkatan',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Icon(Icons.access_time, color: Colors.green),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Sampai: $waktuSampai',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Catatan:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 5),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Lokasi: $namaLokasi',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  child: Text(
-                    catatan,
-                    style: const TextStyle(fontSize: 14),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Icon(Icons.departure_board, color: Colors.blue),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Keberangkatan: $waktuKeberangkatan',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Icon(Icons.access_time, color: Colors.green),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Sampai: $waktuSampai',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Catatan:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 5),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      catatan,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
