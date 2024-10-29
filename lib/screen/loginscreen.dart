@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../service/koneksi.dart'; // Import koneksi.dart
+import '../service/koneksi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'navbar.dart';
+import 'registscreen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,13 +14,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _obscureText =
+      true; // Tambahkan variabel untuk mengontrol visibilitas password
 
   Future<void> _login() async {
     setState(() {
       _isLoading = true;
     });
 
-    final response = await login(
+    final response = await ApiService.login(
       _emailController.text,
       _passwordController.text,
     );
@@ -26,16 +31,25 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
-    // Tambahkan log untuk melihat respons
     print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    print('Response body: ${response.body}'); // Debug respons
 
     if (response.statusCode == 200) {
       try {
         final data = json.decode(response.body);
         if (data['success']) {
+          // Simpan ID pengguna
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('user_id', data['user_id'].toString());
+
           _showSuccessDialog('Login berhasil!');
-          Navigator.pushReplacementNamed(context, '/home');
+          // Navigasi ke NavbarScreen setelah login berhasil
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    NavbarScreen()), // Ganti HomeScreen() dengan NavbarScreen()
+          );
         } else {
           _showErrorDialog('Password atau email salah.');
         }
@@ -51,11 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Login Failed'),
+        title: const Text('Login Gagal'),
         content: Text(message),
         actions: <Widget>[
           TextButton(
-            child: const Text('Okay'),
+            child: const Text('Oke'),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -73,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Text(message),
         actions: <Widget>[
           TextButton(
-            child: const Text('Okay'),
+            child: const Text('Oke'),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -109,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Welcome to TripApp',
+                'Selamat datang di TripApp',
                 style: TextStyle(
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
@@ -133,15 +147,26 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: 'Kata Sandi',
                   labelStyle: const TextStyle(color: Colors.blueAccent),
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.8),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.blueAccent,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true,
+                obscureText: _obscureText,
               ),
               const SizedBox(height: 20),
               _isLoading
@@ -155,9 +180,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      child: const Text('Login'),
+                      child: const Text('Masuk'),
                       onPressed: _login,
                     ),
+              const SizedBox(height: 20),
+              TextButton(
+                child: const Text('Belum punya akun? Daftar'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegistScreen()),
+                  );
+                },
+              ),
             ],
           ),
         ),

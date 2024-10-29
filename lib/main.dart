@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screen/loginscreen.dart';
-import 'screen/home.dart';
+import 'screen/navbar.dart';
 import 'splash.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => NavbarScreen(),
       },
     );
   }
