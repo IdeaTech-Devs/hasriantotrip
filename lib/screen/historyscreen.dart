@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../service/koneksi.dart';
 import 'dart:convert';
+import 'detailscreen.dart'; // Import detailscreen
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -78,13 +79,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 final perjalanan = _perjalananList[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: GlassmorphismCard(
-                    child: ListTile(
-                      title: Text(
-                          perjalanan['nama_lokasi'] ?? 'Lokasi tidak tersedia'),
-                      subtitle: Text(
-                          'Keberangkatan: ${perjalanan['waktu_keberangkatan'] ?? 'Tidak tersedia'}\nSampai: ${perjalanan['waktu_sampai'] ?? 'Tidak tersedia'}'),
-                      isThreeLine: true,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailScreen(
+                            namaLokasi: perjalanan['nama_lokasi'],
+                            waktuKeberangkatan:
+                                perjalanan['waktu_keberangkatan'],
+                            waktuSampai: perjalanan['waktu_sampai'],
+                            catatan: perjalanan['catatan'],
+                          ),
+                        ),
+                      );
+                    },
+                    child: GlassmorphismCard(
+                      child: ListTile(
+                        title: Text(perjalanan['nama_lokasi'] ??
+                            'Lokasi tidak tersedia'),
+                        subtitle: Text(
+                            'Keberangkatan: ${perjalanan['waktu_keberangkatan'] ?? 'Tidak tersedia'}\nSampai: ${perjalanan['waktu_sampai'] ?? 'Tidak tersedia'}'),
+                        isThreeLine: true,
+                      ),
                     ),
                   ),
                 );
@@ -106,15 +123,22 @@ class GlassmorphismCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(
           colors: [
-            Colors.white.withOpacity(0.2),
-            Colors.white.withOpacity(0.1),
+            Colors.blue.withOpacity(0.3),
+            Colors.blueAccent.withOpacity(0.2),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         border: Border.all(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.blueAccent.withOpacity(0.3),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
