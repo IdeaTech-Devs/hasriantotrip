@@ -14,8 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
-  bool _obscureText =
-      true; // Tambahkan variabel untuk mengontrol visibilitas password
+  bool _obscureText = true;
 
   Future<void> _login() async {
     setState(() {
@@ -38,17 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         final data = json.decode(response.body);
         if (data['success']) {
-          // Simpan ID pengguna
+          // Simpan ID pengguna dengan kunci yang konsisten
           final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('user_id', data['user_id'].toString());
+          await prefs.setString('userId', data['user_id'].toString());
 
           _showSuccessDialog('Login berhasil!');
           // Navigasi ke NavbarScreen setelah login berhasil
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    NavbarScreen()), // Ganti HomeScreen() dengan NavbarScreen()
+                builder: (context) => NavbarScreen()),
           );
         } else {
           _showErrorDialog('Password atau email salah.');

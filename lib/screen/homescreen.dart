@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../service/koneksi.dart'; // Pastikan Anda mengimpor ApiService
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _userId = prefs.getString('userId');
     });
+    print('Loaded userId: $_userId');
   }
 
   Future<void> _submitData() async {
@@ -78,6 +80,34 @@ class _HomeScreenState extends State<HomeScreen> {
     _catatanController.clear();
   }
 
+  Future<void> _selectDateTime(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (pickedTime != null) {
+        final DateTime pickedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        setState(() {
+          controller.text = DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDateTime);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,13 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: _namaLokasiController,
                   labelText: 'Nama Lokasi',
                 ),
-                _buildGlassmorphicTextField(
+                _buildGlassmorphicDateTimeField(
                   controller: _waktuKeberangkatanController,
                   labelText: 'Waktu Keberangkatan',
+                  context: context,
                 ),
-                _buildGlassmorphicTextField(
+                _buildGlassmorphicDateTimeField(
                   controller: _waktuSampaiController,
                   labelText: 'Waktu Sampai',
+                  context: context,
                 ),
                 _buildGlassmorphicTextField(
                   controller: _catatanController,
@@ -140,6 +172,34 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: TextField(
         controller: controller,
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: InputBorder.none,
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGlassmorphicDateTimeField({
+    required TextEditingController controller,
+    required String labelText,
+    required BuildContext context,
+  }) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(81, 81, 81, 81).withOpacity(0.5),
+        borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(
+          color: const Color.fromARGB(255, 81, 81, 81).withOpacity(0.8),
+        ),
+      ),
+      child: TextField(
+        controller: controller,
+        readOnly: true,
+        onTap: () => _selectDateTime(context, controller),
         decoration: InputDecoration(
           labelText: labelText,
           border: InputBorder.none,

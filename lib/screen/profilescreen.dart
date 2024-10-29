@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString('user_id') ?? '';
+    String userId = prefs.getString('userId') ?? '';
     print('User ID: $userId');
 
     if (userId.isEmpty) {
